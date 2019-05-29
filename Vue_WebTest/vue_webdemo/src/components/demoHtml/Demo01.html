@@ -1,0 +1,124 @@
+<html>
+
+<head>
+    <title>Vue 数据渲染、用户交互、组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- 数据绑定 -->
+    <div id="app" v-bind:title="msg">
+        {{msg}}
+        <h1>{{msg}}</h1>
+    </div>
+    <!-- v-bind -->
+    <div id="app-2">
+        <span v-bind:title="msg">
+            鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+    </div>
+    <!-- 控制显示 -->
+    <div>
+        <h1 id="app-3" v-if="seen">
+            Look Me
+        </h1>
+    </div>
+    <!-- 循环渲染 -->
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos" v-bind:title=todo.id>
+                {{todo.text}}
+            </li>
+        </ol>
+    </div>
+    <!-- 事件绑定、触发 -->
+    <div id="app-5">
+        <p>{{msg}}</p>
+        <button v-on:click="reverseMsg">逆转消息</button>
+    </div>
+    <!-- v-model -->
+    <div id="app-6">
+        <p>{{msg}}</p>
+        <input v-model="msg">
+    </div>
+    <!-- 组件 -->
+    <div id="app-7">
+        <ol>
+            <todo-item v-for="item in list" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app', data: {
+                msg: 'hello Vue'
+            }
+
+        });
+
+        var app2 = new Vue({
+            el: "#app-2",
+            data: {
+                msg: "页面加载于" + new Date().toLocaleDateString()
+            }
+        });
+
+        var app3 = new Vue({
+            el: "#app-3",
+            data: {
+                seen: false
+            }
+        });
+
+        var app4 = new Vue({
+            el: "#app-4",
+            data: {
+                todos: [
+                    { id: 1, text: "我是1" },
+                    { id: 2, text: "我是2" },
+                    { id: 3, text: "我是3" }
+                ]
+            }
+        });
+
+        var app5 = new Vue({
+            el: "#app-5",
+            data: {
+                msg: "Hello Node.js"
+            },
+            methods: {
+                reverseMsg: function () {
+                    this.msg = this.msg.split(' ').reverse().join(' ');
+                    console.log(this)
+                }
+            }
+        });
+
+        var app6 = new Vue({
+            el: "#app-6",
+            data: {
+                msg: "Hello Vue"
+            }
+        });
+
+        // 组件
+        //定义组件
+        Vue.component("todo-item", {
+            props: ["todo"],
+            template: "<li>{{todo.text}}</li>"
+        });
+        var app7 = new Vue({
+            el: "#app-7",
+            data: {
+                list: [
+                    { id: 1, text: "第一" },
+                    { id: 2, text: "第二" },
+                    { id: 3, text: "第三" }
+                ]
+            }
+        });
+
+    </script>
+</body>
+
+</html>
